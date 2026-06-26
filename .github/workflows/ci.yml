@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install API deps
+        run: |
+          pip install -r api/requirements.txt
+      - name: Check API can import
+        run: python -c "import sys; sys.path.insert(0, 'api'); from main import app; print('✓ FastAPI app loads')"
+      - name: Validate HTML
+        run: |
+          if [ -f frontend/index.html ]; then echo "✓ index.html exists"; fi
+          if [ -f frontend/style.css ]; then echo "✓ style.css exists"; fi

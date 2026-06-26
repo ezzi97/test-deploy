@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Deploy 🚀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>🚀 Test Deploy</h1>
+    <p class="subtitle">GitHub → Vercel + Railway pipeline demo</p>
+
+    <div class="card">
+      <h2>Status</h2>
+      <div class="status-grid">
+        <div class="status-item" id="frontend-status">
+          <span class="dot"></span>
+          <strong>Frontend</strong> (Vercel)
+        </div>
+        <div class="status-item" id="backend-status">
+          <span class="dot"></span>
+          <strong>Backend</strong> (Railway)
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>API Response</h2>
+      <pre id="api-response">Click to test...</pre>
+      <button id="fetch-btn" onclick="fetchAPI()">Test Railway API</button>
+    </div>
+
+    <footer>
+      <p>Version 1.0.0 — deployed via GitHub Actions</p>
+    </footer>
+  </main>
+
+  <script>
+    const API_URL = 'https://REPLACE_WITH_RAILWAY_URL';
+
+    async function fetchAPI() {
+      const el = document.getElementById('api-response');
+      el.textContent = 'Loading...';
+      try {
+        const res = await fetch(API_URL + '/health');
+        const data = await res.json();
+        el.textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        el.textContent = 'Error: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
